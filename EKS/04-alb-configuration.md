@@ -17,13 +17,14 @@ aws iam create-policy \
 Create IAM Role
 
 ```
-eksctl create iamserviceaccount \
-  --cluster=<your-cluster-name> \
-  --namespace=kube-system \
-  --name=aws-load-balancer-controller \
-  --role-name AmazonEKSLoadBalancerControllerRole \
-  --attach-policy-arn=arn:aws:iam::<your-aws-account-id>:policy/AWSLoadBalancerControllerIAMPolicy \
-  --approve
+helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
+  -n kube-system \
+  --set clusterName=demo-cluster-three-tier-1 \
+  --set serviceAccount.create=false \
+  --set serviceAccount.name=aws-load-balancer-controller \
+  --set region=us-east-1 \
+  --set vpcId=vpc-0e8e9fa0fdf95cf51
+
 ```
 
 ## Deploy ALB controller
